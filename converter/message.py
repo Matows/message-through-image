@@ -13,12 +13,14 @@ class Message(object):
 
     def checkASCII(self, msg):
         """Retourne une string conforme ou lève une exception"""
+        # TODO: Voir si on ne peut pas transmettre des caractères français via la table ascii (voir fonction ascii())
         pass
 
     def crypt(self):
         """Retourne le message crypté.
             Cette classe peut être surchargé pour modifié l'algorithme de
-            cryptage
+            cryptage.
+            A chaque algorithme doit être associé un nombre qui doit être retourné avec le message crypté.
         """
         pass
 
