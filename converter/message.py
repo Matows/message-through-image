@@ -7,6 +7,7 @@ printable = tuple(printable[:-16])
 
 class Message(object):
     """Classe représentant le Message"""
+    # Le message en lui même est conservé tout au long du traitement dans self._msg
 
     def __init__(self, msg):
         self._msg = self.checkASCII(msg)
