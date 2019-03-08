@@ -5,28 +5,39 @@ from string import printable
 printable = tuple(printable[:-16])
 
 
-class Message(object):
+class Message:
     """Classe représentant le Message"""
     # Le message en lui même est conservé tout au long du traitement dans self._msg
 
-    def __init__(self, msg):
-        self._msg = self.checkASCII(msg)
+    def __init__(self, msg=False):
+        self._msg = self.checkConformity(msg)
 
-    def checkASCII(self, msg):
-        """Retourne une string conforme ou lève une exception"""
+        ### Paramètres ####
+        # cryptage
+        self._key = 0
+        self.algoNumber = 0
+
+    def checkConformity(self, msg):
+        """Retourne une string conforme (ascii) ou lève une exception"""
         # TODO: Voir si on ne peut pas transmettre des caractères français via la table ascii (voir fonction ascii())
-        pass
+        return msg
 
-    def crypt(self):
-        """Retourne le message crypté.
+    def crypt(self, key=None, algoNumber=None):
+        """Crypte le message contenu dans _msg. Ne retourne rien
             Cette classe peut être surchargé pour modifié l'algorithme de
             cryptage.
             A chaque algorithme doit être associé un nombre qui doit être retourné avec le message crypté.
         """
+        # On peut imaginer que les algorithmes de cryptage sois stocké dans un fichier
+        if not key:
+            key = self._key
+        if not algoNumber:
+            algoNumber = self.algoNumber
+
         pass
 
     def charToInt(self, char):
-        """Prend en paramètre un charactère et renvoie un int utilisable pour l'encodage"""
+        """Retourne un int utilisable pour l'encodage"""
         if char not in printable:
             pass
         else:
@@ -35,11 +46,11 @@ class Message(object):
     def msg():
         """Propriété controllant l'accès à l'attribut msg"""
 
-        def getMsg(self):
+        def fget(self):
             return self._msg
 
-        def setMsg(self, newMsg):
-            self._msg = self.checkASCII(newMsg)
+        def fset(self, newMsg):
+            self._msg = self.checkConformity(newMsg)
 
         return locals()
     msg = property(**msg())
