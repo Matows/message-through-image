@@ -29,6 +29,7 @@ class Message:
             A chaque algorithme doit être associé un nombre qui doit être retourné avec le message crypté.
         """
         # On peut imaginer que les algorithmes de cryptage sois stocké dans un fichier
+        # Si on veut qu'une méthode sois forcément écrite par un dev, il faut raise NotImplementedError
         if not key:
             key = self._key
         if not algoNumber:
