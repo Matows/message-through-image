@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from string import printable
+from utils import *
 printable = tuple(printable[:-16])
 
 
@@ -9,7 +10,8 @@ class Message:
     """Classe représentant le Message"""
     # Le message en lui même est conservé tout au long du traitement dans self._msg
 
-    def __init__(self, msg=False):
+    def __init__(self, msg=None, msgEncode=None):
+        checkInputs(msg, msgEncode)
         self._msg = self.checkConformity(msg)
 
         ### Paramètres ####
