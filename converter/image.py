@@ -15,4 +15,6 @@ class Image:
         """Retourne un tuple RGB à partir d'un nombre"""
         pass
 
-    def assemble(self, algoNumber)
+    def assemble(self, algoNumber):
+        """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
+        pass
