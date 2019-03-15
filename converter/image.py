@@ -6,8 +6,10 @@ class Image:
 
     def __init__(self, msgEncode=None, image=None):
         """Prend en paramètres un objet Message ou une image et produit l'autre"""
-        if msgEncode and image:
-            raise ValueError
+        if msgEncode == None and image == None:
+            raise ValueError("Un des deux paramètres doit être renseigné")
+        elif msgEncode != None and image != None:
+            raise ValueError("Seulement un des deux paramètres doit être renseigné")
         self.msgEncode = msgEncode
         self.algoNumber = self._msgEncode
 
