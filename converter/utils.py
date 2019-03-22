@@ -7,3 +7,5 @@ def checkInputs(a, b):
         raise ValueError("Un des deux paramètres doit être renseigné")
     elif a != None and b != None:
         raise ValueError("Seulement un des deux paramètres doit être renseigné")
+    else:
+        pass

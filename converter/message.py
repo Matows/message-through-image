@@ -11,7 +11,8 @@ class Message:
     # Le message en lui même est conservé tout au long du traitement dans self._msg
 
     def __init__(self, msg=None, msgEncode=None):
-        checkInputs(msg, msgEncode)
+        """Prend en paramètres un objet message encodé ou une image et produit l'inverse"""
+        checkInputs(msg, msgEncode)  # Un seul des deux paramètres doivent être passé
         self._msg = self.checkConformity(msg)
 
         ### Paramètres ####
