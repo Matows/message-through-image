@@ -47,6 +47,10 @@ class Message:
         else:
             return printable.index(char)
 
+    def cleanMessage(self, msg):
+        """Sert à nettoyer le message avant qu'il soit utilisé."""
+        return msg.strip()
+
     def msg():
         """Propriété controllant l'accès à l'attribut msg"""
 
