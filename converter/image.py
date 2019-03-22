@@ -13,6 +13,8 @@ class Image:
 
     def numToPixel(self, nb):
         """Retourne un tuple RGB à partir d'un nombre"""
+        with open("valeurs_RGB.csv",'r') as file:
+
         pass
 
     def assemble(self, algoNumber):
