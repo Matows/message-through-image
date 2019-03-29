@@ -11,7 +11,7 @@ class Image:
         checkInputs(msgEncode, image)
 
         self.msgEncode = objMsg.msg # Tableau de int
-        self.algoNumber = None  # Checksum de l'algo ?
+        self.sumAlgoCrypt = None  # Checksum de l'algo ?
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
