@@ -17,13 +17,16 @@ class Image:
         """Retourne une liste RGB à partir d'un nombre
             On part du principe qu'il y a 84 charactère (printable[:-16])
         """
+        R = nb
+        G = nb
+        B = nb
+        return [R, G, B]
 
-        return [nb, nb, nb]
-
-    def pixelToNum(self,RGB):
+    def pixelToNum(self, RGB):
         """Retourne un nombre à partir d'un nombre RGB
         """
-        
+        nb = RGB[0]
+        return nb
 
     def assemble(self, algoNumber):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
