@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 from utils import *
@@ -14,10 +14,10 @@ class Image:
         self.algoNumber = None  # Checksum de l'algo ?
 
     def numToPixel(self, nb):
-        """Retourne un tuple RGB à partir d'un nombre"""
-        with open("valeurs_RGB.csv",'r') as file:
-
-        pass
+        """Retourne un tuple RGB à partir d'un nombre
+            On part du principe qu'il y a 84 charactère (printable[:-16])
+        """
+        return [nb, nb, nb]
 
     def assemble(self, algoNumber):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
