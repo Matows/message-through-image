@@ -33,5 +33,5 @@ class Image:
         pass
 
     def lecture(self, imgTab):
-        """Retourne """
+        """Retourne des listes """
         pass
