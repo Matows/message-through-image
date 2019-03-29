@@ -28,6 +28,10 @@ class Image:
         nb = RGB[0]
         return nb
 
-    def assemble(self, algoNumber):
+    def assemble(self, size):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
+        pass
+
+    def lecture(self, imgTab):
+        """Retourne """
         pass
