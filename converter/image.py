@@ -33,5 +33,8 @@ class Image:
         pass
 
     def lecture(self, imgTab):
-        """Retourne des listes """
-        pass
+        """Retourne des listes de valeurs RGB"""
+        R = imgTab[0]
+        G = imgTab[1]
+        B = imgTab[2]
+        return [R, G, B]
