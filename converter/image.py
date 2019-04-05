@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from utils import *
+from PIL import *
 
 
 class Image:
@@ -11,7 +12,7 @@ class Image:
         checkInputs(msgEncode, image)
 
         self.msgEncode = objMsg.msg # Tableau de int
-        self.algoNumber = None  # Checksum de l'algo ?
+        self.sumAlgoCrypt = None  # Checksum de l'algo ?
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
@@ -28,6 +29,16 @@ class Image:
         nb = RGB[0]
         return nb
 
-    def assemble(self, algoNumber):
+    def assemble(self, size, RGBTab, newVal):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
-        pass
+        if size in RGBTab[0][1] or size in RGBTab[0][2] :
+            return RGBTab.append(newVal)
+        else:
+            im = Image.new('RGB',size)
+
+    def lecture(self, imgTab):
+        """Retourne des listes de valeurs RGB"""
+        R = imgTab[0]
+        G = imgTab[1]
+        B = imgTab[2]
+        return [R, G, B]
