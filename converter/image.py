@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from utils import *
+from PIL import *
 
 
 class Image:
@@ -28,9 +29,12 @@ class Image:
         nb = RGB[0]
         return nb
 
-    def assemble(self, size):
+    def assemble(self, size, RGBTab, newVal):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
-        pass
+        if size in RGBTab[0][1] or size in RGBTab[0][2] :
+            return RGBTab.append(newVal)
+        else:
+            im = Image.new('RGB',size)
 
     def lecture(self, imgTab):
         """Retourne des listes de valeurs RGB"""
