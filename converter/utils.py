@@ -9,3 +9,11 @@ def checkInputs(a, b):
         raise ValueError("Seulement un des deux paramètres doit être renseigné")
     else:
         pass
+
+
+def parcourir(image):
+    """Générateur pour parcourir l'image (tableau de pixel/int)"""
+    largeur, hauteur = len(image[0]), len(image)
+    for y in range(hauteur):
+        for x in range(largeur):
+            yield image[y][x]
