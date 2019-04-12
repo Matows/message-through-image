@@ -25,10 +25,11 @@ class Image:
     def pixelToNum(self, RGB):
         """Retourne un nombre à partir d'un nombre RGB
         """
-        nbR = RGB[0]
-        nbG = RGB[1]
-        nbB = RGB[2]
-        return [nbR, nbG, nbB]
+        #nbR = RGB[0]
+        #nbG = RGB[1]
+        #nbB = RGB[2]
+        #return [nbR, nbG, nbB]
+        return RGB[0]
 
     def assemble(self, algoNumber):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
