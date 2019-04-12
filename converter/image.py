@@ -34,7 +34,7 @@ class Image:
         if size in RGBTab[0][1] or size in RGBTab[0][2] :
             return RGBTab.append(newVal)
         else:
-            im = Image.new('RGB',size)
+            im = Image.new('RGB', size)
 
     def lecture(self, imgTab):
         """Retourne des listes de valeurs RGB"""
