@@ -28,7 +28,7 @@ class Image:
         nbR = RGB[0]
         nbG = RGB[1]
         nbB = RGB[2]
-        return (nbR, nbG, nbB)
+        return [nbR, nbG, nbB]
 
     def assemble(self, algoNumber):
         """Prend un tableau de pixel et rajoute les codes d'identifications de l'algorithme"""
