@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from utils import *
-from PIL import *
+#from PIL import *
 
 
 class Image:
