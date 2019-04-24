@@ -23,6 +23,11 @@ class Message:
     def checkConformity(self, msg):
         """Retourne une string conforme (ascii) ou lève une exception"""
         # TODO: Voir si on ne peut pas transmettre des caractères français via la table ascii (voir fonction ascii())
+        for i in range(0,len(msg)):
+            if msg[i] in printable :
+                pass
+            else:
+                print ("Erreur, charactère invalide en ", i)
         return msg
 
     def crypt(self, key=None, algoNumber=None):
