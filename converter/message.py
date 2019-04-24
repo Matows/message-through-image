@@ -13,8 +13,7 @@ class Message:
         Message encodé dans self.encodedMsg
         checksum de la fonction de cryptage (si défini) dans self.cryptFuncChecksum
     """
-
-    def __init__(self, msg=None, msgEncode=None):
+    def __init__(self, msg=None, msgEncode=None, crypt=None, cryptKArgs=None):
         """Initialie l'objet.
             Paramètres:
             - Le message
