@@ -10,15 +10,9 @@ class Image:
     def __init__(self, objMsg=None, image=None, parcourir=lineaire):
         """Prend en paramètres un objet Message ou une image et produit l'inverse"""
         checkInputs(msgEncode, image)
-
-<<<<<<< HEAD
-        self.msgEncode = objMsg.msg  # Tableau de int
-        self.sumAlgoCrypt = None  # Checksum de l'algo ?
-=======
         self.parcourir = parcourir
         self.msgEncode = objMsg.msg  # Tableau de int
         self.algoNumber = None  # Checksum de l'algo ?
->>>>>>> parcourir
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
@@ -26,7 +20,7 @@ class Image:
         """
         nbR = nb//16
         nbG = int((nb*nb)/300)
-        nbV = nb%16
+        nbV = nb % 16
         R = nbR
         G = nbG
         B = nbV
@@ -47,14 +41,17 @@ class Image:
             return RGBTab.append(newVal)
         else:
             im = Image.new('RGB', size)
-<<<<<<< HEAD
-            im.append(newVal)
-=======
->>>>>>> parcourir
 
-    def lecture(self, imgTab):
-        """Retourne des listes de valeurs RGB"""
-        R = imgTab[0]
-        G = imgTab[1]
-        B = imgTab[2]
-        return [R, G, B]
+
+<< << << < HEAD
+im.append(newVal)
+== == == =
+>>>>>> > parcourir
+
+
+def lecture(self, imgTab):
+    """Retourne des listes de valeurs RGB"""
+    R = imgTab[0]
+    G = imgTab[1]
+    B = imgTab[2]
+    return [R, G, B]
