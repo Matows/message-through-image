@@ -14,6 +14,14 @@ def checkInputs(a, b):
         pass
 
 
+def funcChecksum(func):
+    """Renvoie le hash md5 d'un fonction"""
+    code = getsource(func)
+    code = "".join([line.strip() for line in code.split("\n") if line != ''])
+    hash = md5(code.encode())
+    return hash.hexdigest()
+
+
 def lineaire(largeur, hauteur):
     """Générateur qui renvoie un ordre de gauche à droite et de haut en bas
 
