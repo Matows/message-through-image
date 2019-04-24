@@ -6,11 +6,12 @@ from utils import *
 
 class Image:
 
-    def __init__(self, objMsg=None, image=None):
+    def __init__(self, objMsg=None, image=None, parcourir=lineaire):
         """Prend en paramètres un objet Message ou une image et produit l'inverse"""
         checkInputs(msgEncode, image)
 
-        self.msgEncode = objMsg.msg # Tableau de int
+        self.parcourir = parcourir
+        self.msgEncode = objMsg.msg  # Tableau de int
         self.algoNumber = None  # Checksum de l'algo ?
 
     def numToPixel(self, nb):
