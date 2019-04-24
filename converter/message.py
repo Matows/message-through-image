@@ -7,11 +7,20 @@ printable = tuple(printable[:-16])
 
 
 class Message:
-    """Classe représentant le Message"""
-    # Le message en lui même est conservé tout au long du traitement dans self._msg
+    """Classe représentant le Message.
 
-    def __init__(self, msg=None, msgEncode=None):
-        """Prend en paramètres un objet message encodé ou une image et produit l'inverse"""
+        Message d'origine dans self.originMsg
+        Message encodé dans self.encodedMsg
+        checksum de la fonction de cryptage (si défini) dans self.cryptFuncChecksum
+    """
+
+    def __init__(self, msg=None, msgEncode=None, crypt=None, cryptKArgs=None):
+        """Initialie l'objet.
+            Paramètres:
+            - Le message
+            - La fonction de cryptage (optionel)
+            - Le dictionnaire de paramètre (optionel) à passer au cryptage
+        """
         checkInputs(msg, msgEncode)  # Un seul des deux paramètres doivent être passé
         self._msg = self.checkConformity(msg)
 
