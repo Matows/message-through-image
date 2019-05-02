@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
+import utils
 from string import printable
-from utils import *
 printable = tuple(printable[:-16])
 
 
@@ -18,60 +18,57 @@ class Message:
             Paramètres:
             - Le message
             - La fonction de cryptage (optionel)
-            - Le dictionnaire de paramètre (optionel) à passer au cryptage 
+            - Le dictionnaire de paramètre (optionel) à passer au cryptage
         """
-        checkInputs(msg, msgEncode)  # Un seul des deux paramètres doivent être passé
-        self._msg = self.checkConformity(msg)
+        utils.checkInputs(msg, msgEncode)  # Un seul des deux paramètres doivent être passé
+        self._msgOrigin = self.checkConformity(msg)
 
-        ### Paramètres ####
-        # cryptage
-        self._key = 0
-        self.algoNumber = 0
+        self.crypt = crypt
+        self.cryptKArgs = cryptKArgs
+
+    def getEncodedMsg(self):
+        if self.crypt: # Cryptage si défini
+            self._msg = self.crypt(self._msgOrigin, **self.cryptKArgs)
+        self._msg = [self.charToInt(lettre) for lettre in self._msg] # On convertie en liste de lettre
+        return self._msg
+
+    def getCryptChecksum(self):
+        return utils.funcChecksum(self.crypt)
 
     def checkConformity(self, msg):
-        """Retourne une string conforme (ascii) ou lève une exception"""
+        """Lève une exception ValueError si le message n'est pas conforme"""
         # TODO: Voir si on ne peut pas transmettre des caractères français via la table ascii (voir fonction ascii())
-        for i in range(0,len(msg)):
-            if msg[i] in printable :
-                pass
-            else:
-                print ("Erreur, charactère invalide en ", i)
-        return msg
-
-    def crypt(self, key=None, algoNumber=None):
-        """Crypte le message contenu dans _msg. Ne retourne rien
-            Cette classe peut être surchargé pour modifié l'algorithme de
-            cryptage.
-            A chaque algorithme doit être associé un nombre qui doit être retourné avec le message crypté.
-        """
-        # On peut imaginer que les algorithmes de cryptage sois stocké dans un fichier
-        # Si on veut qu'une méthode sois forcément écrite par un dev, il faut raise NotImplementedError
-        if not key:
-            key = self._key
-        if not algoNumber:
-            algoNumber = self.algoNumber
-
-        pass
+        for lettre in msg:
+            if lettre not in printable:
+                raise ValueError("Un des caractères n'est pas autorisé")
+        return msg.strip()
 
     def charToInt(self, char):
         """Retourne un int utilisable pour l'encodage"""
-        if char not in printable:
-            pass
-        else:
+        if char in printable:
             return printable.index(char)
 
-    def cleanMessage(self, msg):
-        """Sert à nettoyer le message avant qu'il soit utilisé."""
-        return msg.strip()
+    def msgOrigin():
+        """Propriété controllant l'accès à l'attribut _msgOrigin"""
+        # TODO: Géré un nouveau message
+
+        def fget(self):
+            return self._msgOrigin
+
+        def fset(self, newMsg):
+            self._msgOrigin = self.checkConformity(newMsg)
+
+        return locals()
+    msgOrigin = property(**msgOrigin())
 
     def msg():
-        """Propriété controllant l'accès à l'attribut msg"""
+        """Propriété empêchant l'écriture de l'attribut _msg"""
 
         def fget(self):
             return self._msg
 
-        def fset(self, newMsg):
-            self._msg = self.checkConformity(newMsg)
+        def fset(self):
+            print("Il est interdit de changer directement le message final")
 
         return locals()
     msg = property(**msg())
