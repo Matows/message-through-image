@@ -3,6 +3,8 @@
 
 from inspect import getsource
 from hashlib import md5
+from string import printable
+printable = tuple(printable[:-16])
 
 
 def checkInputs(a, b):
@@ -15,7 +17,7 @@ def checkInputs(a, b):
 
 
 def funcChecksum(func):
-    """Renvoie le hash md5 d'un fonction"""
+    """Renvoie le hash md5 d'une fonction"""
     code = getsource(func)
     code = "".join([line.strip() for line in code.split("\n") if line != ''])
     hash = md5(code.encode())
@@ -39,3 +41,15 @@ def lineaire(largeur, hauteur):
     for y in range(hauteur+1):
         for x in range(largeur+1):
             yield y, x
+
+def cesar(msg, decalage):
+    if decalage >= len(printable):
+        raise ValueError("Décalage or limite")
+    msgCrypt = ""
+    for char in msg:
+        nouvelleLettre = printable.index(char) + decalage
+        if nouvelleLettre > len(printable):
+            nouvelleLettre -= len(printable)
+        finalLettre = printable[nouvelleLettre]
+        msgCrypt += finalLettre
+    return msgCrypt
