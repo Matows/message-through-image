@@ -27,8 +27,11 @@ class Message:
         self.cryptKArgs = cryptKArgs
 
     def getEncodedMsg(self):
+        """Retourne le message sous forme de tableau d'entier"""
         if self.crypt: # Cryptage si défini
             self._msg = self.crypt(self._msgOrigin, **self.cryptKArgs)
+        else:
+            self._msg=self._msgOrigin
         self._msg = [self.charToInt(lettre) for lettre in self._msg] # On convertie en liste de lettre
         return self._msg
 
