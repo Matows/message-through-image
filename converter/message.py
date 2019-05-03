@@ -3,7 +3,7 @@
 
 import utils
 from string import printable
-printable = tuple(printable[:-16])
+printable = list(printable[:-16]) + list(" ")
 
 
 class Message:
@@ -28,8 +28,6 @@ class Message:
             self._msgOrigin = self.checkConformity(msg)
         else:
             self._msg, self.parcourirCS, self.cryptCS = objImg.desassemble()
-            print(self.cryptCS)
-            print(self.getCryptChecksum())
             if self.cryptCS != '0'*32 and self.cryptCS != self.getCryptChecksum():
                 print("ATTENTION: L'algorithme de cryptage de départ est différent de celui donné",
                       f"Expected:{self.getCryptChecksum()}", f"Got:{self.cryptCS}", sep="\n")

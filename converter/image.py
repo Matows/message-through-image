@@ -113,10 +113,15 @@ class Image:
         checksumsFinal.pop()  # on enlève le nombre aléatoire
         checksumsFinal = [hex(nb)[2:] for nb in checksumsFinal]  # on convertie en hexa
         # Dans le cas ou on a "0" au lieu de "00"...
-        checksumsFinal = ["0" + nb for nb in checksums if len(nb) == 1]
+        checksumsFinalFixed = []
+        for nb in checksumsFinal:
+            if len(nb) == 1:
+                checksumsFinalFixed.append("0" + nb)
+            else:
+                checksumsFinalFixed.append(nb)
 
-        parcourirCS = "".join(checksumsFinal[:16])
-        cryptCS = "".join(checksumsFinal[16:])
+        parcourirCS = "".join(checksumsFinalFixed[:16])
+        cryptCS = "".join(checksumsFinalFixed[16:])
 
         if parcourirCS != self.getParcourirChecksum():
             print("ATTENTION: le générateur que vous utiliser pour parcourir l'image n'est pas le même que l'original",
