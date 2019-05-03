@@ -4,7 +4,7 @@
 from inspect import getsource
 from hashlib import md5
 from string import printable
-printable = tuple(printable[:-16])
+printable = tuple(printable[:-16]) + tuple(" ")
 
 
 def checkInputs(a, b):
@@ -49,7 +49,7 @@ def cesar(msg, decalage):
     msgCrypt = ""
     for char in msg:
         nouvelleLettre = printable.index(char) + decalage
-        if nouvelleLettre > len(printable):
+        if nouvelleLettre >= len(printable):
             nouvelleLettre -= len(printable)
         if nouvelleLettre < 0:
             nouvelleLettre += len(printable)

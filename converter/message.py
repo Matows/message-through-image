@@ -2,8 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import utils
-from string import printable
-printable = list(printable[:-16]) + list(" ")
+from utils import printable
 
 
 class Message:
