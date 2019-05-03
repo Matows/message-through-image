@@ -2,8 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import utils
-from PIL import *
 from random import randint
+from PIL import Image as PILImage
 
 
 class Image:
@@ -14,16 +14,20 @@ class Image:
             A besoin d'un tuple sizeImg (largeur,hauteur) > nb_caractères + 1 (pixels de position) + 11 (checksums)
         """
         utils.checkInputs(objMsg, image)
-        if type(sizeImg) != tuple:
-            raise ValueError("Il manque la valeur de sizeImg")
+        if objMsg:
+            if type(sizeImg) != tuple:
+                raise ValueError("Il manque la valeur de sizeImg")
 
-        self.sizeImg = sizeImg
-        self.parcourir = parcourir
-        self.msgEncode = objMsg.getEncodedMsg()  # Tableau de int
-        self.cryptChecksum = objMsg.getCryptChecksum()
+            self.sizeImg = sizeImg
+            self.parcourir = parcourir
+            self.msgEncode = objMsg.getEncodedMsg()  # Tableau de int
+            self.cryptChecksum = objMsg.getCryptChecksum()
 
-        if sizeImg[0]*sizeImg[1] < len(self.msgEncode) + 12:
-            raise ValueError("La taille de l'image choisi est trop petite. Elle doit faire plus de {} pixels".format(len(self.msgEncode) + 12))
+            if sizeImg[0]*sizeImg[1] < len(self.msgEncode) + 12:
+                raise ValueError("La taille de l'image choisi est trop petite. Elle doit faire plus de {} pixels".format(
+                    len(self.msgEncode) + 12))
+        else:
+            pass
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
@@ -31,7 +35,7 @@ class Image:
         """
         nbR = nb//16
         nbG = int((nb*nb)/300)
-        nbV = nb % 16
+        nbB = nb % 16
         R = nbR
         G = nbG
         B = nbB
@@ -67,30 +71,41 @@ class Image:
         position = [Rposition, Gposition, Bposition]
 
         parcourirChecksum = utils.funcChecksum(self.parcourir)
-        print(parcourirChecksum, self.cryptChecksum)
         checksums = list(parcourirChecksum + self.cryptChecksum)
         # Convertion en tableau de valeurs entre 0 et 255
-        pxChecksums = [ int(checksums[x] + checksums[x+1], 16)
+        pxChecksums = [int(checksums[x] + checksums[x+1], 16)
                        for x in range(len(checksums))
                        if x % 2 == 0]
         # Regroupement par 3
-        pxChecksumsFinal = [ [ pxChecksums[x], pxChecksums[x+1], pxChecksums[x+2] ]
-                        for x in range(len(pxChecksums)-2)
-                        if x % 3 == 0]
+        pxChecksumsFinal = [[pxChecksums[x], pxChecksums[x+1], pxChecksums[x+2]]
+                            for x in range(len(pxChecksums)-2)
+                            if x % 3 == 0]
         # Ajout des deux pixels menquant
-        pxChecksumsFinal.append([ pxChecksums[-2], pxChecksums[-1], randint(0, 255) ])
+        pxChecksumsFinal.append([pxChecksums[-2], pxChecksums[-1], randint(0, 255)])
 
-        final = [] # Liste à une dimenstion représentant les pixels
+        final = []  # Liste à une dimenstion représentant les pixels
         final.append(position)
-        final.extend(self.msgEncode)
+        final.extend(self.formatMsg(self.msgEncode))
         final.extend(pxChecksumsFinal)
+
         nbPxManquant = self.sizeImg[0] * self.sizeImg[1] - len(final)
         while nbPxManquant > 0:
-            final.append([ randint(0, 255), randint(0, 255), randint(0, 255) ])
+            final.append([randint(0, 255), randint(0, 255), randint(0, 255)])
             nbPxManquant = self.sizeImg[0] * self.sizeImg[1] - len(final)
 
         return final
 
+    def formatMsg(self, msg):
+        """transforme le message (liste d'entiers) en liste de pixel"""
+        return [self.numToPixel(nb) for nb in msg]
+
+    def getImage(self):
+        """Retourne un objet Image"""
+        imgFinal = PILImage.new("RGB", self.sizeImg)
+        listePx = self.assemble()
+        for n, (x, y) in enumerate(self.parcourir(*self.sizeImg)):
+            imgFinal.putpixel((x, y), tuple(listePx[n]))
+        return imgFinal
 
     # def lecture(self, imgTab):
     #     """Retourne des listes de valeurs RGB"""
