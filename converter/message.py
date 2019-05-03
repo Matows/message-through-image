@@ -31,7 +31,8 @@ class Message:
             print(self.cryptCS)
             print(self.getCryptChecksum())
             if self.cryptCS != '0'*32 and self.cryptCS != self.getCryptChecksum():
-                print("ATTENTION: L'algorithme de cryptage de départ est différent de celui donné")
+                print("ATTENTION: L'algorithme de cryptage de départ est différent de celui donné",
+                      f"Expected:{self.getCryptChecksum()}", f"Got:{self.cryptCS}", sep="\n")
 
     def getEncodedMsg(self):
         """Retourne le message sous forme de tableau d'entier"""

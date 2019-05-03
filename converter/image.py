@@ -96,6 +96,9 @@ class Image:
         return final
 
     def desassemble(self):
+        """Désassmble la liste de pixel. renvoie un tuple de la forme:
+            msg, parcourirChecksum, cryptChecksum
+        """
         listePx = self.getListePx()
         position = listePx[0]
         positionDebutChecksums = int(self._tupleToBinary(position[0], position[1]), 2)
@@ -116,7 +119,8 @@ class Image:
         cryptCS = "".join(checksumsFinal[16:])
 
         if parcourirCS != self.getParcourirChecksum():
-            print("ATTENTION: le générateur que vous utiliser pour parcourir l'image n'est pas le même que l'original")
+            print("ATTENTION: le générateur que vous utiliser pour parcourir l'image n'est pas le même que l'original",
+                  f"Expected: {self.getParcourirChecksum()}", f"Got:{parcourirCS}", sep="\n")
 
         return msg, parcourirCS, cryptCS
 
