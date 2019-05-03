@@ -8,12 +8,12 @@ from PIL import Image as PILImage
 
 class Image:
 
-    def __init__(self, objMsg=None, image=None, sizeImg=None, parcourir=utils.lineaire):
+    def __init__(self, objMsg=None, objImg=None, sizeImg=None, parcourir=utils.lineaire):
         """Prend en paramètres un objet Message ou une image et produit l'inverse
             A besoin d'un générateur pour connaître l'ordre de lecture
             A besoin d'un tuple sizeImg (largeur,hauteur) > nb_caractères + 1 (pixels de position) + 11 (checksums)
         """
-        utils.checkInputs(objMsg, image)
+        utils.checkInputs(objMsg, objImg)
         self.parcourir = parcourir
 
         # Partie dépendante de si on encode ou décode
@@ -29,8 +29,8 @@ class Image:
                 raise ValueError("La taille de l'image choisi est trop petite. Elle doit faire plus de {} pixels".format(
                     len(self.msgEncode) + 12))
         else:
-            self.sizeImg = image.size
-            self.image = image
+            self.sizeImg = objImg.size
+            self.image = objImg
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
@@ -95,6 +95,41 @@ class Image:
 
         return final
 
+    def desassemble(self):
+        listePx = self.getListePx()
+        position = listePx[0]
+        positionDebutChecksums = int(self._tupleToBinary(position[0], position[1]), 2)
+
+        msg = listePx[1:positionDebutChecksums]
+        msg = [self.pixelToNum(lettre) for lettre in msg]
+
+        checksums = listePx[positionDebutChecksums:positionDebutChecksums+11]
+        checksumsFinal = []
+        for pixel in checksums:
+            checksumsFinal.extend(pixel)
+        checksumsFinal.pop()  # on enlève le nombre aléatoire
+        checksumsFinal = [hex(nb)[2:] for nb in checksumsFinal]  # on convertie en hexa
+        # Dans le cas ou on a "0" au lieu de "00"...
+        checksumsFinal = ["0" + nb for nb in checksums if len(nb) == 1]
+
+        parcourirCS = "".join(checksumsFinal[:16])
+        cryptCS = "".join(checksumsFinal[16:])
+
+        if parcourirCS != self.getParcourirChecksum():
+            print("ATTENTION: le générateur que vous utiliser pour parcourir l'image n'est pas le même que l'original")
+
+        return msg, parcourirCS, cryptCS
+
+    def _tupleToBinary(self, r, g):
+        r = bin(r)[2:]
+        g = bin(g)[2:]
+
+        while len(r) < 4:
+            r = '0' + r
+        while len(g) < 4:
+            g = '0' + g
+        return r + g
+
     def formatMsg(self, msg):
         """Transforme le message (liste d'entiers) en liste de pixel"""
         return [self.numToPixel(nb) for nb in msg]
@@ -120,9 +155,3 @@ class Image:
 
     def getParcourirChecksum(self):
         return utils.funcChecksum(self.parcourir)
-    # def lecture(self, imgTab):
-    #     """Retourne des listes de valeurs RGB"""
-    #     R = imgTab[0]
-    #     G = imgTab[1]
-    #     B = imgTab[2]
-    #     return [R, G, B]
