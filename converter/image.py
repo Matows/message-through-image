@@ -14,12 +14,14 @@ class Image:
             A besoin d'un tuple sizeImg (largeur,hauteur) > nb_caractères + 1 (pixels de position) + 11 (checksums)
         """
         utils.checkInputs(objMsg, image)
+        self.parcourir = parcourir
+
+        # Partie dépendante de si on encode ou décode
         if objMsg:
             if type(sizeImg) != tuple:
                 raise ValueError("Il manque la valeur de sizeImg")
 
             self.sizeImg = sizeImg
-            self.parcourir = parcourir
             self.msgEncode = objMsg.getEncodedMsg()  # Tableau de int
             self.cryptChecksum = objMsg.getCryptChecksum()
 
@@ -27,18 +29,16 @@ class Image:
                 raise ValueError("La taille de l'image choisi est trop petite. Elle doit faire plus de {} pixels".format(
                     len(self.msgEncode) + 12))
         else:
-            pass
+            self.sizeImg = image.size
+            self.image = image
 
     def numToPixel(self, nb):
         """Retourne une liste RGB à partir d'un nombre
             On part du principe qu'il y a 84 charactères (printable[:-16])
         """
-        nbR = nb//16
-        nbG = int((nb*nb)/300)
-        nbB = nb % 16
-        R = nbR
-        G = nbG
-        B = nbB
+        R = nb//16
+        G = int((nb*nb)/300)
+        B = nb % 16
         return [R, G, B]
 
     def pixelToNum(self, RGB):
@@ -46,8 +46,8 @@ class Image:
         nbR = RGB[0]
         nbG = RGB[1]
         nbB = RGB[2]
-        nb = nbR*16 + nbV
-        return [nb]
+        nb = nbR*16 + nbB
+        return nb
 
     def assemble(self):
         """Prend un tableau de pixel et rajoute un pixel au debut (position début checksums) et 11 à la fin (checksums)
@@ -96,8 +96,12 @@ class Image:
         return final
 
     def formatMsg(self, msg):
-        """transforme le message (liste d'entiers) en liste de pixel"""
+        """Transforme le message (liste d'entiers) en liste de pixel"""
         return [self.numToPixel(nb) for nb in msg]
+
+    def unformatMsg(self, msgPx):
+        """Transforme le pixel [R,G,B] en un entier"""
+        return [self.pixelToNum(RGB) for RGB in msgPx]
 
     def getImage(self):
         """Retourne un objet Image"""
@@ -107,6 +111,15 @@ class Image:
             imgFinal.putpixel((x, y), tuple(listePx[n]))
         return imgFinal
 
+    def getListePx(self):
+        """Retourne une liste de pixel (position + message + checksums + aléatoire)"""
+        listePx = []
+        for x, y in self.parcourir(*self.sizeImg):
+            listePx.append(list(self.image.getpixel((x, y))))
+        return listePx
+
+    def getParcourirChecksum(self):
+        return utils.funcChecksum(self.parcourir)
     # def lecture(self, imgTab):
     #     """Retourne des listes de valeurs RGB"""
     #     R = imgTab[0]
