@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import utils
-from utils import printable
+from . import utils
+from .utils import printable
 
 
 class Message:

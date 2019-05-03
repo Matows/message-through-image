@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import utils
+from . import utils
 from random import randint
 from PIL import Image as PILImage
 
