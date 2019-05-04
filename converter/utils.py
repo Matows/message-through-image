@@ -45,7 +45,7 @@ def lineaire(largeur, hauteur):
 
 def cesar(msg, decalage):
     if decalage >= len(printable):
-        raise ValueError("Décalage or limite")
+        raise ValueError("Décalage hors limite")
     msgCrypt = ""
     for char in msg:
         nouvelleLettre = printable.index(char) + decalage
